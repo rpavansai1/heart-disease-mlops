@@ -1,0 +1,24 @@
+# ============================================================
+# AIMLCZG523 - Machine Learning Operations
+# Assignment 1 - Prometheus Configuration
+# Scrapes metrics from Heart Disease Prediction API
+# ============================================================
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'heart-disease-monitor'
+
+scrape_configs:
+  # Scrape Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Scrape Heart Disease API metrics
+  - job_name: 'heart-disease-api'
+    static_configs:
+      - targets: ['host.docker.internal:8000']
+    metrics_path: '/metrics'
+    scrape_interval: 10s
